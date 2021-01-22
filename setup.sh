@@ -1,10 +1,10 @@
 #!/bin/sh
 
 echo "Copy .vimrc"
-cp .vimrc ~/
+cp ./terminal/.vimrc ~/
 
 echo "Install utilities.."
-./setup-utils.sh
+sh ./setup-utils.sh
 
 echo "Install programs for development"
-./setup-dev.sh
+sh ./setup-dev.sh

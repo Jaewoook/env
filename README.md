@@ -6,5 +6,6 @@ environment configuration files for development and initial setup on terminal
 
 ```sh
 # Setup terminal environment
-curl -s https://github.com/Jaewoook/env/master/terminal/setup.sh | bash
+git clone https://github.com/Jaewoook/env.git
+cd env && sh setup.sh
 ```
