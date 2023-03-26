@@ -72,7 +72,7 @@ DISABLE_UPDATE_PROMPT="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vscode nvm golang yarn zsh-syntax-highlighting)
+plugins=(git yarn zsh-syntax-highlighting asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,17 +102,34 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Locale
+export LC_ALL=ko_KR.UTF-8
+export LANG=$LC_ALL
 
 # GO PATH
 export GOPATH=${HOME}/projects/goprojects
-export GOROOT=$(brew --prefix golang)/libexec
+export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH=$PATH:$GOPATH/bin:$GROOT/bin
 
 # Java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-15.jdk/Contents/Home
+export JAVA_HOME=`/usr/libexec/java_home -v 16`
 
 # Anaconda3 PATH
 export PATH=$PATH:/usr/local/anaconda3/bin
+
+# Android
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Flutter
+export FLUTTER_HOME=$HOME/projects/oss/flutter
+export PATH=$PATH:$FLUTTER_HOME/bin
+
+# Binaries
+export PATH=$PATH:$HOME/bin
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -129,7 +146,20 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH=$PATH:/Users/jaewookahn/.meteor
+
+# RBENV
+eval "$(rbenv init - zsh)"
+
+# PYENV
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export GPG_TTY=$(tty)
+
+# depot_tools
+export PATH="$PATH:$HOME/projects/oss/depot_tools"
+
+# Emscripten - WebAssembly compiler toolchain
+source "/Users/jaewookahn/projects/oss/emsdk/emsdk_env.sh"
