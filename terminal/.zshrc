@@ -106,13 +106,16 @@ source $ZSH/oh-my-zsh.sh
 export LC_ALL=ko_KR.UTF-8
 export LANG=$LC_ALL
 
+# GitHub Packages Publish Token
+export GITHUB_PACKAGES_PUBLISH_TOKEN=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
+
 # GO PATH
 export GOPATH=${HOME}/projects/goprojects
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH=$PATH:$GOPATH/bin:$GROOT/bin
 
 # Java
-export JAVA_HOME=`/usr/libexec/java_home -v 16`
+source ~/.asdf/plugins/java/set-java-home.zsh
 
 # Anaconda3 PATH
 export PATH=$PATH:/usr/local/anaconda3/bin
@@ -162,4 +165,4 @@ export GPG_TTY=$(tty)
 export PATH="$PATH:$HOME/projects/oss/depot_tools"
 
 # Emscripten - WebAssembly compiler toolchain
-source "/Users/jaewookahn/projects/oss/emsdk/emsdk_env.sh"
+# source "/Users/jaewookahn/projects/oss/emsdk/emsdk_env.sh" > /dev/null
