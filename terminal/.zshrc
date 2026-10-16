@@ -72,7 +72,7 @@ DISABLE_UPDATE_PROMPT="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git yarn zsh-syntax-highlighting asdf)
+plugins=(git yarn zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,9 +102,19 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Locale
-export LC_ALL=ko_KR.UTF-8
+# Locale: English
+export LC_ALL=en_US.UTF-8
 export LANG=$LC_ALL
+
+# Homebrew sbin
+export PATH="/usr/local/sbin:$PATH"
+
+# Binaries
+export PATH=$PATH:$HOME/bin
+
+# asdf
+export ASDF_DATA_DIR=$HOME/.asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # GitHub Packages Publish Token
 export GITHUB_PACKAGES_PUBLISH_TOKEN=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
@@ -112,7 +122,7 @@ export GITHUB_PACKAGES_PUBLISH_TOKEN=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
 # GO PATH
 export GOPATH=${HOME}/projects/goprojects
 export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH=$PATH:$GOPATH/bin:$GROOT/bin
+export PATH=$PATH:$GOPATH/bin:$GROOT/bin
 
 # Java
 source ~/.asdf/plugins/java/set-java-home.zsh
@@ -131,9 +141,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export FLUTTER_HOME=$HOME/projects/oss/flutter
 export PATH=$PATH:$FLUTTER_HOME/bin
 
-# Binaries
-export PATH=$PATH:$HOME/bin
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -149,20 +156,23 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-export PATH=$PATH:/Users/jaewookahn/.meteor
+# RBENV (Disabled)
+# eval "$(rbenv init - zsh)"
 
-# RBENV
-eval "$(rbenv init - zsh)"
-
-# PYENV
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
+# GPG
 export GPG_TTY=$(tty)
 
-# depot_tools
+# depot_tools for Chromium project
+function enable_depot_tools {
 export PATH="$PATH:$HOME/projects/oss/depot_tools"
+}
+
+enable_depot_tools
 
 # Emscripten - WebAssembly compiler toolchain
-# source "/Users/jaewookahn/projects/oss/emsdk/emsdk_env.sh" > /dev/null
+function enable_emscripten {
+    source "$HOME/projects/oss/emsdk/emsdk_env.sh" > /dev/null
+}
+
+# Added by Antigravity
+export PATH="/Users/jaewookahn/.antigravity/antigravity/bin:$PATH"
