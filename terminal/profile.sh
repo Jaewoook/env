@@ -1,58 +1,50 @@
 #!/bin/zsh
 
 # Locale: English
-export LC_ALL=en_US.UTF-8
-export LANG=$LC_ALL
+export LANG=en_US.UTF-8
 
-# Homebrew(intel) sbin
-export PATH="/usr/local/sbin:$PATH"
+# Default editor
+export EDITOR=vim
 
-# Binaries
-export PATH=$PATH:$HOME/bin
+# Default config directory
+export XDG_CONFIG_HOME=$HOME/.config
+
+# Keep PATH free of duplicates (applies to $path as well)
+typeset -U path PATH
+
+# Local secrets (tokens etc.). Not tracked by git: see ~/.secrets.zsh (chmod 600)
+[[ -r $HOME/.secrets.zsh ]] && source $HOME/.secrets.zsh
 
 # asdf (tool version manager)
 export ASDF_DATA_DIR=$HOME/.asdf
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-
-# GitHub Packages Publish Token
-export GITHUB_PACKAGES_PUBLISH_TOKEN=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
 
 # GO PATH
 export GOPATH=${HOME}/projects/goprojects
 export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin:$GROOT/bin
-
-# Java w/ asdf
-source ~/.asdf/plugins/java/set-java-home.zsh
-
-# Anaconda3 PATH
-export PATH=$PATH:/usr/local/anaconda3/bin
 
 # Android
 export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # Flutter
 export FLUTTER_HOME=$HOME/projects/oss/flutter
-export PATH=$PATH:$FLUTTER_HOME/bin
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/usr/local/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# PATH (highest priority first)
+path=(
+    $HOME/.antigravity/antigravity/bin
+    $ASDF_DATA_DIR/shims
+    /usr/local/sbin
+    $path
+    $HOME/bin
+    $GOPATH/bin
+    $GOROOT/bin
+    $ANDROID_HOME/emulator
+    $ANDROID_HOME/cmdline-tools/latest/bin
+    $ANDROID_HOME/platform-tools
+    $FLUTTER_HOME/bin
+)
+
+# Java w/ asdf
+source ~/.asdf/plugins/java/set-java-home.zsh
 
 # RBENV (Disabled)
 # eval "$(rbenv init - zsh)"
@@ -60,17 +52,15 @@ unset __conda_setup
 # GPG
 export GPG_TTY=$(tty)
 
-# depot_tools for Chromium project
+# depot_tools for Chromium project (on demand)
 function enable_depot_tools {
-    export PATH="$PATH:$HOME/projects/oss/depot_tools"
+    path+=($HOME/projects/oss/depot_tools)
 }
-
-enable_depot_tools
 
 # Emscripten - WebAssembly compiler toolchain
 function enable_emscripten {
     source "$HOME/projects/oss/emsdk/emsdk_env.sh" > /dev/null
 }
 
-# Added by Antigravity
-export PATH="/Users/jaewookahn/.antigravity/antigravity/bin:$PATH"
+# Drop PATH entries that do not exist
+path=(${^path}(N-/))
